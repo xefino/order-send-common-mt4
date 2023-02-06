@@ -1,5 +1,5 @@
 #property copyright "Xefino"
-#property version   "1.00"
+#property version   "1.05"
 #property strict
 
 // Winsock constants
