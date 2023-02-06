@@ -1,2 +1,2 @@
 # order-send-common-mt4
-Common order-send code for MT4
+This library contains common code necessary to run the order-send component on MT4.
