@@ -1,9 +1,9 @@
 #property copyright "Xefino"
-#property version   "1.05"
+#property version   "1.06"
 #property strict
 
-#include <order-send-common-mt4/ClientSocket.mqh>
-#include <order-send-common-mt4/SocketCommon.mqh>
+#include "ClientSocket.mqh"
+#include "SocketCommon.mqh"
 
 // ServerSocket
 // Object allowing for the creation of a socket server
@@ -47,15 +47,17 @@ public:
 //    port:       The port number to listen on
 //    localOnly:  Whether or not the server should listen locally or remotely
 ServerSocket::ServerSocket(const ushort port, const bool localOnly) {
-
+   #ifdef SOCKET_LIBRARY_LOGGING
+      Print("Socket logging enabled");
+   #endif
+   
    // First, attempt to create the socket and make it non-blocking
    m_created = false;
    m_last_WSA_error = 0;
    if (TerminalInfoInteger(TERMINAL_X64)) {
    
       // Force compiler to use the 64-bit version of socket() by passing it a uint 3rd parameter 
-      uint proto = IPPROTO_TCP;
-      m_socket64 = socket(AF_INET, SOCK_STREAM, proto);
+      m_socket64 = socket(AF_INET, SOCK_STREAM, (uint)IPPROTO_TCP);
       if (m_socket64 == INVALID_SOCKET64) {
          m_last_WSA_error = WSAGetLastError();
          #ifdef SOCKET_LIBRARY_LOGGING
@@ -70,8 +72,7 @@ ServerSocket::ServerSocket(const ushort port, const bool localOnly) {
    } else {
    
       // Force compiler to use the 32-bit version of socket() by passing it a int 3rd parameter 
-      int proto = IPPROTO_TCP;
-      m_socket32 = socket(AF_INET, SOCK_STREAM, proto);
+      m_socket32 = socket(AF_INET, SOCK_STREAM, (int)IPPROTO_TCP);
       if (m_socket32 == INVALID_SOCKET32) {
          m_last_WSA_error = WSAGetLastError();
          #ifdef SOCKET_LIBRARY_LOGGING
@@ -84,7 +85,7 @@ ServerSocket::ServerSocket(const ushort port, const bool localOnly) {
       uint nonblock = 1;
       ioctlsocket(m_socket32, FIONBIO, nonblock);
    }
-
+   
    // Create a new sock address from the port and server address
    sockaddr server;
    server.family = AF_INET;
@@ -203,5 +204,11 @@ void ServerSocket::SetupSocketEventHandling() {
       } else {
          WSAAsyncSelect(m_socket32, (int)handle, 0x100 /* WM_KEYDOWN */, 0xFF /* All events */);
       }
+      
+   int errCode = GetLastError();
+   if (errCode != 0) {
+      Print("Error 5: ", errCode);
+      ResetLastError();
+   }
    #endif
 }

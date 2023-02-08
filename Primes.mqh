@@ -1,15 +1,26 @@
 #property copyright "Xefino"
-#property version   "1.05"
+#property version   "1.06"
 
+// PrimeGenerator
+// Copied over from MQL5, allows for generation of prime numbers
 class PrimeGenerator {
 private:
    const static int  s_primes[];       // table of prime numbers
    const static int  s_hash_prime;
 
 public:
+
+   // IsPrime returns whether or not a number is prime, true if it is, false otherwise
+   //    candidate:  The number to be checked
    static bool IsPrime(const int candidate);
+   
+   // GetPrime returns the next prime greater than the minimum value provided
+   //    min:        The minimum value for the desired prime
    static int GetPrime(const int min);
-   static int ExpandPrime(const int old_size);
+   
+   // ExpandPrime returns a prime at least twice as large as the value provided
+   //    old:        The old prime value to be expanded
+   static int ExpandPrime(const int old);
 };
 
 const static int PrimeGenerator::s_primes[] = {
@@ -26,7 +37,11 @@ const static int PrimeGenerator::s_primes[] = {
 
 const static int PrimeGenerator::s_hash_prime = 101;
 
+// IsPrime returns whether or not a number is prime, true if it is, false otherwise
+//    candidate:  The number to be checked
 bool PrimeGenerator::IsPrime(const int candidate) {
+   
+   // Check if the value is odd; if it is then we'll try the Seive of Eratosthenes
    if ((candidate & 1) != 0) {
       int limit = (int)MathSqrt(candidate);
       for (int divisor = 3; divisor <= limit; divisor += 2) {
@@ -38,10 +53,17 @@ bool PrimeGenerator::IsPrime(const int candidate) {
       return true;
    }
    
+   // If we got to this point then the number is even. The only even prime
+   // is two so return the value of that check
    return candidate == 2;
 }
 
+// GetPrime returns the next prime greater than the minimum value provided
+//    min:        The minimum value for the desired prime
 int PrimeGenerator::GetPrime(const int min) {
+
+   // First, iterate over the list of primes and check whether or not we can
+   // use one of those values; if we can then return it
    for (int i = 0; i < ArraySize(s_primes); i++) {
       int prime = s_primes[i];
       if (prime >= min) {
@@ -49,20 +71,25 @@ int PrimeGenerator::GetPrime(const int min) {
       }
    }
    
-   //--- outside of our predefined table
+   // Next, since we didn't find the value in our pre-computed list, we'll iterate
+   // over possible prime candidates and check whether or not each is prime until
+   // we find one; return it if we find it
    for (int i = (min|1); i <= INT_MAX; i += 2) {
       if(IsPrime(i) && ((i - 1) % s_hash_prime != 0)) {
          return i;
       }
    }
    
+   // Finally, return the original value if we couldn't find a prime
    return min;
 }
 
-int PrimeGenerator::ExpandPrime(const int old_size) {
-   if (old_size >= INT_MAX/2) {
+// ExpandPrime returns a prime at least twice as large as the value provided
+//    old:        The old prime value to be expanded
+int PrimeGenerator::ExpandPrime(const int old) {
+   if (old >= INT_MAX / 2) {
       return INT_MAX;
    }
    
-   return GetPrime(old_size * 2);
+   return GetPrime(old * 2);
 }

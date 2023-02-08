@@ -1,5 +1,5 @@
 #property copyright "Xefino"
-#property version   "1.05"
+#property version   "1.06"
 
 // Describes the possible actions available for trade requests
 enum ENUM_TRADE_REQUEST_ACTIONS {
@@ -44,6 +44,26 @@ public:
    ENUM_ORDER_TYPE_TIME       TypeTime;
    datetime                   Expiration;
    string                     Comment;
-   ulong                      Position;
-   ulong                      PositionBy;
+   
+   // Clone makes a deep copy of this value and stores it in the value provided to the function
+   //    value:   The value that will hold the cloned data
+   void Clone(TradeRequest &value) const;
 };
+
+// Clone makes a deep copy of this value and stores it in the value provided to the function
+//    value:   The value that will hold the cloned data
+void TradeRequest::Clone(TradeRequest &value) const {
+   value.Action = Action;
+   value.Magic = Magic;
+   value.Order = Order;
+   value.Symbol = Symbol;
+   value.Volume = Volume;
+   value.Price = Price;
+   value.StopLimit = StopLimit;
+   value.StopLoss = StopLoss;
+   value.TakeProfit = TakeProfit;
+   value.Type = Type;
+   value.TypeFilling = TypeFilling;
+   value.Expiration = Expiration;
+   value.Comment = Comment;   
+}

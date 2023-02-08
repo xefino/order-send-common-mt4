@@ -1,8 +1,8 @@
 #property copyright "Xefino"
-#property version   "1.05"
+#property version   "1.06"
 #property strict
 
-#include <order-send-common-mt4/SocketCommon.mqh>
+#include "SocketCommon.mqh"
 
 // ClientSocket
 // Object to allow client socket connections
@@ -112,6 +112,9 @@ ClientSocket::ClientSocket(const string host, const ushort port) {
 
    // First, attempt to create a socket we'll use for connections
    CreateSocket();
+   #ifdef SOCKET_LIBRARY_LOGGING
+      Print("Socket logging enabled");
+   #endif
 
    // Next, check if the host is an IP address
    uchar arrName[];
