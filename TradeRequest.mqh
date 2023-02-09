@@ -1,5 +1,5 @@
 #property copyright "Xefino"
-#property version   "1.06"
+#property version   "1.07"
 
 // Describes the possible actions available for trade requests
 enum ENUM_TRADE_REQUEST_ACTIONS {

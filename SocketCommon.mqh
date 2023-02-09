@@ -1,9 +1,8 @@
 #property copyright "Xefino"
-#property version   "1.06"
+#property version   "1.07"
 #property strict
 
 // Winsock constants
-#define SOCKET_LIBRARY_LOGGING 1
 #define SOCKET_HANDLE32       uint
 #define SOCKET_HANDLE64       ulong
 #define AF_INET               2
