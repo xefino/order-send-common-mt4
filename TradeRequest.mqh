@@ -1,5 +1,5 @@
 #property copyright "Xefino"
-#property version   "1.07"
+#property version   "1.08"
 
 // Describes the possible actions available for trade requests
 enum ENUM_TRADE_REQUEST_ACTIONS {
@@ -39,6 +39,7 @@ public:
    double                     StopLimit;
    double                     StopLoss;
    double                     TakeProfit;
+   bool                       ToClose;
    ENUM_ORDER_TYPE            Type;
    ENUM_ORDER_TYPE_FILLING    TypeFilling;
    ENUM_ORDER_TYPE_TIME       TypeTime;
@@ -62,6 +63,7 @@ void TradeRequest::Clone(TradeRequest &value) const {
    value.StopLimit = StopLimit;
    value.StopLoss = StopLoss;
    value.TakeProfit = TakeProfit;
+   value.ToClose = ToClose;
    value.Type = Type;
    value.TypeFilling = TypeFilling;
    value.Expiration = Expiration;
