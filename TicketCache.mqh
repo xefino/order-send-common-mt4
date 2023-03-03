@@ -1,5 +1,5 @@
 #property copyright "Xefino"
-#property version   "1.08"
+#property version   "1.10"
 #property strict
 
 #include "Primes.mqh"
@@ -14,7 +14,7 @@ public:
    int            Next;       // The index of the next entry, to use when collisions occur
    
    // Creates a new instance of the Entry with default values
-   Entry(): HashCode(0), Key(0), Value(NULL), Next(0) {};
+   Entry(): HashCode(0), Key(0), Value(0), Next(0) {};
 };
 
 // TicketCache

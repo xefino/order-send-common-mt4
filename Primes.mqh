@@ -1,5 +1,5 @@
 #property copyright "Xefino"
-#property version   "1.08"
+#property version   "1.10"
 
 // PrimeGenerator
 // Copied over from MQL5, allows for generation of prime numbers

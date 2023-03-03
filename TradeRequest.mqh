@@ -1,5 +1,5 @@
 #property copyright "Xefino"
-#property version   "1.08"
+#property version   "1.10"
 
 // Describes the possible actions available for trade requests
 enum ENUM_TRADE_REQUEST_ACTIONS {
@@ -31,6 +31,7 @@ enum ENUM_ORDER_TYPE_TIME {
 class TradeRequest {
 public:
    ENUM_TRADE_REQUEST_ACTIONS Action;
+   double                     TradeBalance;
    ulong                      Magic;
    ulong                      Order;
    string                     Symbol;
@@ -64,6 +65,7 @@ void TradeRequest::Clone(TradeRequest &value) const {
    value.StopLoss = StopLoss;
    value.TakeProfit = TakeProfit;
    value.ToClose = ToClose;
+   value.TradeBalance = TradeBalance;
    value.Type = Type;
    value.TypeFilling = TypeFilling;
    value.Expiration = Expiration;

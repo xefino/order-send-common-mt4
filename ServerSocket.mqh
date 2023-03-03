@@ -1,5 +1,5 @@
 #property copyright "Xefino"
-#property version   "1.08"
+#property version   "1.10"
 #property strict
 
 #include "ClientSocket.mqh"
@@ -204,11 +204,6 @@ void ServerSocket::SetupSocketEventHandling() {
       } else {
          WSAAsyncSelect(m_socket32, (int)handle, 0x100 /* WM_KEYDOWN */, 0xFF /* All events */);
       }
-      
-   int errCode = GetLastError();
-   if (errCode != 0) {
-      Print("Error 5: ", errCode);
-      ResetLastError();
-   }
+   
    #endif
 }
